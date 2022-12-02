@@ -12,20 +12,26 @@
     "typecheck": "tsc --project tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@fontsource/roboto-mono": "^4.5.8",
     "axios": "^1.2.0",
+    "date-fns": "^2.29.3",
     "framer-motion": "^7.6.17",
     "jotai": "^1.11.0",
     "phosphor-react": "^1.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.0",
-    "shortid": "^2.2.16"
+    "react-router-dom": "^6.4.4",
+    "shortid": "^2.2.16",
+    "styled-components": "^5.3.6",
+    "zod": "^3.19.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.2",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
+    "@rocketseat/eslint-config": "^1.1.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/jest": "^29.2.3",
@@ -33,6 +39,7 @@
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
     "@types/shortid": "^0.0.29",
+    "@types/styled-components-react-native": "^5.2.0",
     "@types/testing-library__jest-dom": "^5.14.5",
     "@typescript-eslint/eslint-plugin": "^5.44.0",
     "@typescript-eslint/parser": "^5.44.0",
