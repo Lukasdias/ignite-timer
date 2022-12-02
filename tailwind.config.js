@@ -4,6 +4,7 @@ module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     colors: {
+      transparent: 'transparent',
       grayscale: {
         white: '#ffffff',
         title: '#e1e1e6',
@@ -24,17 +25,10 @@ module.exports = {
         assets: '#cc2937'
       }
     },
-    fontSize: {
-      base: '0.75rem',
-      lg: '0.875rem',
-      xl: '1rem',
-      '2xl': '1.125rem',
-      '3xl': '1.5rem'
-    },
     fontFamily: {
-      sans: ['Roboto Mono', 'sans-serif'],
-      serif: ['Roboto Mono', 'sans-serif'],
-      mono: ['Roboto Mono', 'sans-serif']
+      sans: ['Roboto', 'sans-serif'],
+      serif: ['Roboto', 'serif'],
+      mono: ['Roboto', 'mono']
     },
     borderRadius: {
       none: '0',

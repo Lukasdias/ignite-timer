@@ -4,7 +4,7 @@ function App() {
   return (
     <div
       className={
-        'flex h-screen w-screen flex-col overflow-hidden bg-grayscale-background'
+        'flex h-screen w-screen flex-col items-center justify-center overflow-hidden bg-grayscale-background'
       }
     >
       <Router />
