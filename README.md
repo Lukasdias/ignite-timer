@@ -3,7 +3,7 @@
 ## Introdução 
 
 ## Layout 
-<img src="./Capa.png" alt="" />
+<img src="Capa.png" alt="" />
 
 ## Ferramentas utilizadas
 - React
