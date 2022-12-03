@@ -28,7 +28,7 @@ module.exports = {
     fontFamily: {
       sans: ['Roboto', 'sans-serif'],
       serif: ['Roboto', 'serif'],
-      mono: ['Roboto', 'mono']
+      mono: ['Roboto Mono', 'monospace']
     },
     borderRadius: {
       none: '0',

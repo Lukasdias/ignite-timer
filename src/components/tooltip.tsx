@@ -13,7 +13,7 @@ export default function Tooltip({ text, trigger }: TooltipProps) {
     <AnimatePresence>
       <TooltipPrimitive.Provider delayDuration={200}>
         <TooltipPrimitive.Root delayDuration={200}>
-          <TooltipPrimitive.Trigger className="flex items-center justify-center">
+          <TooltipPrimitive.Trigger className="flex w-full items-center justify-center">
             {trigger}
           </TooltipPrimitive.Trigger>
           <TooltipPrimitive.Portal>

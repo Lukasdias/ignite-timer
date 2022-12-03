@@ -6,7 +6,7 @@ import Tooltip from './tooltip'
 
 export default function Header() {
   return (
-    <header className="mb-[50px] flex w-full items-center justify-between">
+    <header className="flex w-full items-center justify-between">
       <img src={Logo} alt="ignite logo" width={40} height={40} />
       <div className={'flex items-center gap-5'}>
         <Tooltip
