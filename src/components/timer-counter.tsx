@@ -1,3 +1,6 @@
+/* eslint-disable react/display-name */
+import { memo } from 'react'
+
 const TimerElement = ({
   variant,
   value
@@ -11,23 +14,25 @@ const TimerElement = ({
     'bg-gray-200 text-gray-800 text-[160px] font-bold font-mono text-brand-principal w-[4rem] justify-center flex'
   return (
     <span className={variant === 'time' ? timeStyles : separatorStyles}>
-      {variant === 'time' ? '0' : ':'}
+      {variant === 'time' ? value : ':'}
     </span>
   )
 }
 
-export default function TimerCounter() {
-  return (
-    <div
-      className={
-        'relative flex w-full justify-center gap-4 text-grayscale-title '
-      }
-    >
-      <TimerElement variant="time" value="0" />
-      <TimerElement variant="time" value="0" />
-      <TimerElement variant="separator" value=":" />
-      <TimerElement variant="time" value="0" />
-      <TimerElement variant="time" value="0" />
-    </div>
-  )
-}
+export const TimerCounter = memo(
+  ({ minutes, seconds }: { minutes: string; seconds: string }) => {
+    return (
+      <div
+        className={
+          'relative flex w-full justify-center gap-4 text-grayscale-title '
+        }
+      >
+        <TimerElement variant="time" value={minutes[0]} />
+        <TimerElement variant="time" value={minutes[1]} />
+        <TimerElement variant="separator" value=":" />
+        <TimerElement variant="time" value={seconds[0]} />
+        <TimerElement variant="time" value={seconds[1]} />
+      </div>
+    )
+  }
+)

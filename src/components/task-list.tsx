@@ -1,13 +1,21 @@
 /* eslint-disable react/display-name */
-import { formatDistance, subMonths } from 'date-fns'
+import { formatDistanceStrict, subDays, subMonths } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
-import { memo } from 'react'
+import { memo, useCallback, useMemo, useState } from 'react'
 import shortid from 'shortid'
-import { PomodoroTask, TaskStatus } from '../services/usePomodoro'
+import { PomodoroTask, TaskStatus, usePomodoro } from '../services/usePomodoro'
 import { motion } from 'framer-motion'
+import { addDays } from 'date-fns/esm'
 
 interface TaskListProps {
   tasks: PomodoroTask[]
+}
+
+export enum TableHeader {
+  TASK = 'Tarefa',
+  DURATION = 'Duração',
+  START_DATE = 'Início',
+  STATUS = 'Status'
 }
 
 const TableElement = memo(({ children }: { children: React.ReactNode }) => (
@@ -45,81 +53,89 @@ const StatusElement = memo(({ status }: { status: TaskStatus }) => {
   )
 })
 
-const tableHeader = ['Tarefa', 'Duração', 'Início', 'Status']
+const tableHeader: TableHeader[] = [
+  TableHeader.TASK,
+  TableHeader.DURATION,
+  TableHeader.START_DATE,
+  TableHeader.STATUS
+]
 
 function TaskList({ tasks }: TaskListProps) {
-  const aux: PomodoroTask[] = [
-    {
-      id: '1',
-      name: 'Estudar React',
-      duration: 25,
-      status: TaskStatus.IN_PROGRESS,
-      startedAt: subMonths(new Date(), 2)
-    },
-    {
-      id: '1',
-      name: 'Estudar React',
-      duration: 25,
-      status: TaskStatus.COMPLETED,
-      startedAt: subMonths(new Date(), 2)
-    },
-    {
-      id: '1',
-      name: 'Estudar React',
-      duration: 25,
-      status: TaskStatus.PAUSED,
-      startedAt: subMonths(new Date(), 2)
-    },
-    {
-      id: '1',
-      name: 'Estudar React',
-      duration: 25,
-      status: TaskStatus.IN_PROGRESS,
-      startedAt: subMonths(new Date(), 2)
-    },
-    {
-      id: '1',
-      name: 'Estudar React',
-      duration: 25,
-      status: TaskStatus.IN_PROGRESS,
-      startedAt: subMonths(new Date(), 2)
-    },
-    {
-      id: '1',
-      name: 'Estudar React',
-      duration: 25,
-      status: TaskStatus.IN_PROGRESS,
-      startedAt: subMonths(new Date(), 2)
+  function handleFilterByHeader(header: TableHeader) {
+    const sortedTasks = [...tasks]
+    switch (header) {
+      case TableHeader.TASK:
+        sortedTasks.sort((a, b) => a.name.localeCompare(b.name))
+        break
+      case TableHeader.DURATION:
+        sortedTasks.sort((a, b) => a.duration - b.duration)
+        break
+      case TableHeader.START_DATE:
+        break
+      case TableHeader.STATUS:
+        sortedTasks.sort((a, b) => a.status.localeCompare(b.status))
+        break
     }
-  ]
+    return sortedTasks
+  }
+
+  const [currentHeader, setCurrentHeader] = useState<TableHeader>(
+    TableHeader.TASK
+  )
+
+  const handleChangeHeader = useCallback(
+    (header: TableHeader) => {
+      setCurrentHeader(header)
+    },
+    [currentHeader]
+  )
+
+  const current = useMemo(
+    () => handleFilterByHeader(currentHeader),
+    [currentHeader]
+  )
+
+  if (current.length === 0)
+    return (
+      <div
+        className={
+          'flex-col text-center text-2xl font-bold text-grayscale-text'
+        }
+      >
+        Nenhuma tarefa encontrada
+      </div>
+    )
+
   return (
-    <div className={'mt-8 grow overflow-auto'}>
-      <table className={'w-full min-w-[600px] border-collapse'}>
+    <div className={'w-full grow overflow-auto'}>
+      <table className={'w-full min-w-[600px] border-collapse overflow-y-auto'}>
         <thead>
           {tableHeader.map((header) => (
             <th
               key={shortid.generate()}
               className={
-                'bg-grayscale-divider p-4 text-left text-sm leading-6 text-grayscale-white first:rounded-tl-default first:pl-6 last:rounded-tr-default last:pr-6'
+                'cursor-pointer bg-grayscale-divider p-4 text-left text-sm leading-6 text-grayscale-white transition duration-200 first:rounded-tl-default first:pl-6 last:rounded-tr-default last:pr-6 hover:text-brand-light'
               }
+              onClick={() => handleChangeHeader(header)}
             >
               {header}
             </th>
           ))}
         </thead>
         <tbody>
-          {aux.map((task) => (
+          {current?.map((c) => (
             <tr key={shortid.generate()}>
-              <TableElement>{task.name}</TableElement>
-              <TableElement>{task.duration}</TableElement>
+              <TableElement>{c.name}</TableElement>
+              <TableElement>{c.duration} minutos</TableElement>
               <TableElement>
-                {formatDistance(task.startedAt, new Date(), {
+                {formatDistanceStrict(subDays(new Date(), 10), new Date(), {
+                  locale: ptBR,
                   addSuffix: true,
-                  locale: ptBR
+                  roundingMethod: 'floor'
                 })}
               </TableElement>
               <TableElement>
-                <StatusElement status={task.status} />
+                <StatusElement status={c.status} />
               </TableElement>
             </tr>
           ))}

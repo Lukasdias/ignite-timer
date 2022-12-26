@@ -1,6 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Outlet } from 'react-router-dom'
 import Header from './header'
 import { AnimatePresence, motion } from 'framer-motion'
+import { TimerToaster } from './timer-toaster'
+import { usePomodoro } from '../services/usePomodoro'
+import { useEffect } from 'react'
 
 function AppContainer() {
   return (
@@ -17,6 +21,7 @@ function AppContainer() {
       >
         <Header />
         <Outlet />
+        <TimerToaster />
       </motion.div>
     </AnimatePresence>
   )
