@@ -1,14 +1,14 @@
 import Router from '../router'
+import { PomodoroProvider } from '../services/usePomodoro'
+import { Layout } from './layout'
 
 function App() {
   return (
-    <div
-      className={
-        'flex h-screen w-screen flex-col items-center justify-center overflow-hidden bg-grayscale-background'
-      }
-    >
-      <Router />
-    </div>
+    <PomodoroProvider>
+      <Layout>
+        <Router />
+      </Layout>
+    </PomodoroProvider>
   )
 }
 export default App

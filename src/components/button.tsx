@@ -1,10 +1,10 @@
 import { Play, HandPalm } from 'phosphor-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 interface Props {
   variant: 'start' | 'stop'
-  disabled: boolean
-  onClick: () => void
+  disabled?: boolean
+  onClick?: () => void
 }
 
 const Icon = ({ variant }: { variant: 'start' | 'stop' }) => {

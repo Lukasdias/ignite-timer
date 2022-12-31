@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { motion, AnimatePresence } from 'framer-motion'
-import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { PomodoroTask, TaskStatus, usePomodoro } from '../services/usePomodoro'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -30,9 +29,10 @@ export default function Home() {
       }
     })
 
-  const { addTask, currentTimer } = usePomodoro()
+  const { addTask, timer, activeTask, editTask, lastTaskUpdated } =
+    usePomodoro()
 
-  const handleCreateNewCycle = useCallback((data: NewCycleFormData) => {
+  const handleCreateNewCycle = (data: NewCycleFormData) => {
     if (!data) return
     const pomodoro: PomodoroTask = {
       id: shortid.generate(),
@@ -44,11 +44,27 @@ export default function Home() {
     }
     addTask(pomodoro)
     reset()
-  }, [])
+  }
+
+  const handleRestartLastCycle = () => {
+    if (!lastTaskUpdated) return
+    editTask({
+      ...lastTaskUpdated,
+      status: TaskStatus.IN_PROGRESS
+    })
+  }
+
+  const handleStopCurrentCycle = () => {
+    if (!activeTask) return
+    editTask({
+      ...activeTask,
+      status: TaskStatus.PAUSED
+    })
+  }
 
   const task = watch('task')
   const minutesAmount = watch('minutesAmount')
-  const isSubmitDisabled = !task || !minutesAmount
+  const isSubmitDisabled = (!task || !minutesAmount) && !activeTask
 
   return (
     <AnimatePresence>
@@ -105,15 +121,14 @@ export default function Home() {
             </label>
           </section>
 
-          <TimerCounter
-            minutes={currentTimer.minutes}
-            seconds={currentTimer.seconds}
-          />
+          <TimerCounter minutes={timer.minutes} seconds={timer.seconds} />
 
           <Button
-            variant={'start'}
+            variant={activeTask ? 'stop' : 'start'}
             disabled={isSubmitDisabled}
-            onClick={() => {}}
+            onClick={
+              activeTask ? handleStopCurrentCycle : handleRestartLastCycle
+            }
           />
         </form>
       </motion.div>
